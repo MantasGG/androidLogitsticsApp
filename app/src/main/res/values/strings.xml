@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Logistics App</string>
+    <string name="title_users">Users</string>
+    <string name="title_routes">Routes</string>
+    <string name="title_checkpoints">Checkpoints</string>
+    <string name="title_createcheckpoints">Create Checkpoint</string>
+</resources>
