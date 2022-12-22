@@ -1,9 +1,14 @@
 package com.mantas.androidlogisticsapp;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.AndroidRuntimeException;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +31,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText routeId, routeDescription, routeDate, userId;
     private TextView responseTV;
     private ProgressBar loadingPB;
+    private ListView routesList;
     DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
@@ -111,20 +118,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getRoutes(View v) throws IOException {
-        TextView routesText = findViewById(R.id.routesText);
+//        TextView routesText = findViewById(R.id.routesText);
         Call<List<DtoRoutes>> get = restApi.getRoutes();
+
+        routesList = findViewById(R.id.routesList);
 
         get.enqueue(new Callback<List<DtoRoutes>>() {
             @Override
             public void onResponse(Call<List<DtoRoutes>> call, Response<List<DtoRoutes>> response) {
                 if(!response.isSuccessful()){
-                    routesText.setText("Code: " + response.code());
+//                    routesText.setText("Code: " + response.code());
                     return;
                 }
 
                 List<DtoRoutes> routes = response.body();
 
-                routesText.setText("");
+                ArrayAdapter adapter = new RoutesAdapter(getApplicationContext(), routes);
+
+                routesList.setAdapter(adapter);
+//                routesText.setText("");
 
                 for(DtoRoutes route : routes){
                     String content = "";
@@ -135,13 +147,13 @@ public class MainActivity extends AppCompatActivity {
                     content += "startDate: " + route.getStartDate() + "\n";
                     content += "endDate: " + route.getEndDate() + "\n\n";
 
-                    routesText.append(content);
+//                    routesText.append(content);
                 }
             }
 
             @Override
             public void onFailure(Call<List<DtoRoutes>> call, Throwable t) {
-                routesText.setText(t.getMessage());
+//                routesText.setText(t.getMessage());
             }
         });
     }
@@ -272,4 +284,36 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public class RoutesAdapter extends ArrayAdapter<DtoRoutes> {
+        public RoutesAdapter(Context context, List<DtoRoutes> routes){
+            super(context, 0, routes);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // Get the data item for this position
+            DtoRoutes route = getItem(position);
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_route, parent, false);
+            }
+            // Lookup view for data population
+            TextView id = convertView.findViewById(R.id.rId);
+            TextView assignedUserId = convertView.findViewById(R.id.rAssignedUserId);
+            TextView pointA = convertView.findViewById(R.id.rPointA);
+            TextView pointB = convertView.findViewById(R.id.rPointB);
+            TextView startDate = convertView.findViewById(R.id.rStartDate);
+            TextView endDate = convertView.findViewById(R.id.rEndDate);
+            // Populate the data into the template view using the data object
+            id.setText("Route id: " + route.getId());
+            assignedUserId.setText("Assigned user id: " + route.getAssignedUserId());
+            pointA.setText("Point A: " + route.getPointA());
+            pointB.setText("Point B: " + route.getPointB());
+            startDate.setText("Start date: " + route.getStartDate());
+            endDate.setText("End date: " + route.getEndDate());
+
+            // Return the completed view to render on screen
+            return convertView;
+        }
+    }
 }

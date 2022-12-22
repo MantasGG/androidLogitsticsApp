@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/rStartDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start date"
+        app:layout_constraintStart_toStartOf="@+id/rPointA"
+        app:layout_constraintTop_toBottomOf="@+id/rPointA" />
+
+    <TextView
+        android:id="@+id/rEndDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="End date"
+        app:layout_constraintStart_toStartOf="@+id/rStartDate"
+        app:layout_constraintTop_toBottomOf="@+id/rStartDate" />
+
+    <TextView
+        android:id="@+id/rPointB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Point B"
+        app:layout_constraintStart_toStartOf="@+id/rAssignedUserId"
+        app:layout_constraintTop_toBottomOf="@+id/rAssignedUserId" />
+
+    <TextView
+        android:id="@+id/rPointA"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="PointA"
+        app:layout_constraintStart_toStartOf="@+id/rPointB"
+        app:layout_constraintTop_toBottomOf="@+id/rPointB" />
+
+    <TextView
+        android:id="@+id/rId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="id"
+        tools:layout_editor_absoluteX="2dp" />
+
+    <TextView
+        android:id="@+id/rAssignedUserId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="assignedUserId"
+        app:layout_constraintStart_toStartOf="@+id/rId"
+        app:layout_constraintTop_toBottomOf="@+id/rId" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

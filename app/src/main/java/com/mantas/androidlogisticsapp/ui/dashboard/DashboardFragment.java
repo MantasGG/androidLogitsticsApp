@@ -22,7 +22,7 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.tekstas;
+//        final TextView textView = binding.tekstas;
         return root;
     }
 
